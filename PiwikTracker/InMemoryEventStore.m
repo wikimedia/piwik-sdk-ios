@@ -60,8 +60,7 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 }
 
 
-// TODO Rename entityIDs to eventIDs
-- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *entityIDs, NSArray *events, BOOL hasMore))completionBlock {
+- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *eventIDs, NSArray *events, BOOL hasMore))completionBlock {
   
   __weak typeof(self)weakSelf = self;
   dispatch_async(self.queue, ^{
@@ -90,19 +89,19 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 }
 
 
-- (void)deleteEventsWithIDs:(NSArray*)entityIDs completionBlock:(void (^)(void))completionBlock {
+- (void)deleteEventsWithIDs:(NSArray*)eventIDs completionBlock:(void (^)(void))completionBlock {
   
   __weak typeof(self)weakSelf = self;
   dispatch_async(self.queue, ^{
     
-    __block NSUInteger numberOfEventsToDelete = entityIDs.count;
+    __block NSUInteger numberOfEventsToDelete = eventIDs.count;
     NSIndexSet *eventsToDelete = [weakSelf.eventStore indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
       
       Event *event = (Event*)obj;
       if (numberOfEventsToDelete < 1) {
         *stop = YES;
         return NO;
-      } else if ([entityIDs containsObject:event.identity]) {
+      } else if ([eventIDs containsObject:event.identity]) {
         numberOfEventsToDelete--;
         return YES;
       } else {

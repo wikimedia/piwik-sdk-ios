@@ -44,9 +44,9 @@
   __weak typeof(self)weakSelf = self;
   [self.eventStore saveEventWithParameters:self.parameters completionBlock:^{
     
-    [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+    [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
       
-      XCTAssertTrue(entityIDs.count == 1);
+      XCTAssertTrue(eventIDs.count == 1);
       XCTAssertTrue(events.count == 1);
       XCTAssertFalse(hasMore);
       XCTAssertTrue([events[0][@"key"] isEqualToString:@"value"]);
@@ -69,9 +69,9 @@
   __weak typeof(self)weakSelf = self;
   [self.eventStore saveEventWithParameters:self.parameters completionBlock:^{
     
-    [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+    [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
       
-      XCTAssertTrue(entityIDs.count == 10);
+      XCTAssertTrue(eventIDs.count == 10);
       XCTAssertTrue(events.count == 10);
       XCTAssertTrue(hasMore);
       
@@ -87,16 +87,16 @@
   __weak typeof(self)weakSelf = self;
   [self.eventStore saveEventWithParameters:self.parameters completionBlock:^{
     
-    [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+    [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
       
       XCTAssertTrue(events.count == 1);
       
-      NSString *eventID = [NSString stringWithString:entityIDs[0]];
+      NSString *eventID = [NSString stringWithString:eventIDs[0]];
       [weakSelf.eventStore deleteEventsWithIDs:@[eventID] completionBlock:^{
         
-        [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+        [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
           
-          XCTAssertTrue(entityIDs.count == 0);
+          XCTAssertTrue(eventIDs.count == 0);
           XCTAssertTrue(events.count == 0);
           XCTAssertFalse(hasMore);
           
@@ -123,16 +123,16 @@
   __weak typeof(self)weakSelf = self;
   [self.eventStore saveEventWithParameters:self.parameters completionBlock:^{
     
-    [weakSelf.eventStore readEvents:5 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+    [weakSelf.eventStore readEvents:5 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
       
       XCTAssertTrue(events.count == 5);
       
 
-      [weakSelf.eventStore deleteEventsWithIDs:entityIDs completionBlock:^{
+      [weakSelf.eventStore deleteEventsWithIDs:eventIDs completionBlock:^{
         
-        [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+        [weakSelf.eventStore readEvents:10 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
           
-          XCTAssertTrue(entityIDs.count == 5);
+          XCTAssertTrue(eventIDs.count == 5);
           XCTAssertTrue(events.count == 5);
           XCTAssertFalse(hasMore);
           
@@ -160,7 +160,7 @@
   __weak typeof(self)weakSelf = self;
   [self.eventStore saveEventWithParameters:self.parameters completionBlock:^{
     
-    [weakSelf.eventStore readEvents:20 completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+    [weakSelf.eventStore readEvents:20 completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
       
       XCTAssertTrue(events.count == 1);
       XCTAssertFalse(hasMore);

@@ -24,10 +24,10 @@
 
 
 // TODO Change to NSSet?
-- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *entityIDs, NSArray *events, BOOL hasMore))completionBlock;
+- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *eventIDs, NSArray *events, BOOL hasMore))completionBlock;
 
 // TODO Change to NSSet?
-- (void)deleteEventsWithIDs:(NSArray*)entityIDs completionBlock:(void (^)(void))completionBlock;
+- (void)deleteEventsWithIDs:(NSArray*)eventIDs completionBlock:(void (^)(void))completionBlock;
 
 // TODO completionblock?
 - (void)deleteAllEvents;

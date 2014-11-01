@@ -957,7 +957,7 @@ static PiwikTracker *_sharedInstance;
 - (void)sendEvent {
 
   NSUInteger numberOfEventsToSend = self.eventsPerRequest;
-  [self eventsFromStore:numberOfEventsToSend completionBlock:^(NSArray *entityIDs, NSArray *events, BOOL hasMore) {
+  [self eventsFromStore:numberOfEventsToSend completionBlock:^(NSArray *eventIDs, NSArray *events, BOOL hasMore) {
     
     if (!events || events.count == 0) {
       
@@ -970,7 +970,7 @@ static PiwikTracker *_sharedInstance;
   
       __weak typeof(self)weakSelf = self;
       void (^successBlock)(void) = ^ () {
-        [weakSelf deleteEventsWithIDs:entityIDs];
+        [weakSelf deleteEventsWithIDs:eventIDs];
         [weakSelf sendEventDidFinishHasMorePending:hasMore];
       };
       
@@ -1380,7 +1380,7 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
 }
 
 
-- (void)eventsFromStore:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *entityIDs, NSArray *events, BOOL hasMore))completionBlock {
+- (void)eventsFromStore:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *eventIDs, NSArray *events, BOOL hasMore))completionBlock {
   
   [self.managedObjectContext performBlock:^{
     
@@ -1398,7 +1398,7 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
     NSUInteger returnCount = eventEntities.count == fetchRequest.fetchLimit ? numberOfEvents : eventEntities.count;
     
     NSMutableArray *events = [NSMutableArray arrayWithCapacity:returnCount];
-    NSMutableArray *entityIDs = [NSMutableArray arrayWithCapacity:returnCount];
+    NSMutableArray *eventIDs = [NSMutableArray arrayWithCapacity:returnCount];
     
     if (eventEntities && eventEntities.count > 0) {
       
@@ -1409,11 +1409,11 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
           NSDictionary *parameters = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:eventEntity.requestParameters];
 
           [events addObject:parameters];
-          [entityIDs addObject:eventEntity.objectID];
+          [eventIDs addObject:eventEntity.objectID];
           
       }];
       
-      completionBlock(entityIDs, events, eventEntities.count == fetchRequest.fetchLimit ? YES : NO);
+      completionBlock(eventIDs, events, eventEntities.count == fetchRequest.fetchLimit ? YES : NO);
       
     } else {
       // No more pending events
@@ -1425,13 +1425,13 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
 }
 
 
-- (void)deleteEventsWithIDs:(NSArray*)entityIDs {
+- (void)deleteEventsWithIDs:(NSArray*)eventIDs {
 
   [self.managedObjectContext performBlock:^{
     
     NSError *error;
     
-    for (NSManagedObjectID *entityID in entityIDs) {
+    for (NSManagedObjectID *entityID in eventIDs) {
       
       PTEventEntity *event = (PTEventEntity*)[self.managedObjectContext existingObjectWithID:entityID error:&error];
       if (event) {
