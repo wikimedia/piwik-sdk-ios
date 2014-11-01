@@ -31,6 +31,19 @@
 #endif
 
 
+//#define PIWIK_DEBUG_LOG
+
+// Debug logging
+#ifdef PIWIK_DEBUG_LOG
+  #define PiwikDebugLog(fmt,...) NSLog(@"[Piwik] %@",[NSString stringWithFormat:(fmt), ##__VA_ARGS__]);
+#else
+  #define PiwikDebugLog(...)
+#endif
+
+// Always logging
+#define PiwikLog(fmt,...) NSLog(@"[Piwik] %@",[NSString stringWithFormat:(fmt), ##__VA_ARGS__]);
+
+
 #pragma mark - Constants
 
 // Notifications
@@ -53,6 +66,7 @@ static NSString * const PiwikParameterScreenReseloution = @"res";
 static NSString * const PiwikParameterHours = @"h";
 static NSString * const PiwikParameterMinutes = @"m";
 static NSString * const PiwikParameterSeconds = @"s";
+static NSString * const PiwikParameterDateAndTime = @"cdt";
 static NSString * const PiwikParameterActionName = @"action_name";
 static NSString * const PiwikParameterURL = @"url";
 static NSString * const PiwikParameterVisitorID = @"_id";
@@ -249,7 +263,7 @@ static PiwikTracker *_sharedInstance;
 
 + (instancetype)sharedInstance {
   if (!_sharedInstance) {
-    NSLog(@"Piwik tracker must first be initialized using sharedInstanceWithBaseURL:siteID:");
+    PiwikLog(@"Tracker must first be initialized using sharedInstanceWithBaseURL:siteID:");
     return nil;
   } else {
     return _sharedInstance;
@@ -292,14 +306,14 @@ static PiwikTracker *_sharedInstance;
     NSDictionary *defaultValues = @{PiwikUserDefaultOptOutKey : @NO};
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     
-    NSLog(@"Piwik Tracker created with siteID %@", siteID);
+    PiwikLog(@"Tracker created with siteID %@", siteID);
     
     if (self.optOut) {
-      NSLog(@"Piwik Tracker user optout from tracking");
+      PiwikLog(@"Tracker user optout from tracking");
     }
     
     if (_debug) {
-      NSLog(@"Piwik Tracker in debug mode, nothing will be sent to the server");
+      PiwikLog(@"Tracker in debug mode, nothing will be sent to the server");
     }
     
     [self startDispatchTimer];
@@ -344,7 +358,7 @@ static PiwikTracker *_sharedInstance;
                                                               userInfo:nil
                                                                repeats:NO];
       
-      NSLog(@"Dispatch timer started with interval %f", weakSelf.dispatchInterval);
+      PiwikDebugLog(@"Dispatch timer started with interval %f", weakSelf.dispatchInterval);
       
     }
     
@@ -359,7 +373,7 @@ static PiwikTracker *_sharedInstance;
     [self.dispatchTimer invalidate];
     self.dispatchTimer = nil;
     
-    NSLog(@"Dispatch timer stopped");
+    PiwikDebugLog(@"Dispatch timer stopped");
   }
   
 }
@@ -516,8 +530,6 @@ static PiwikTracker *_sharedInstance;
   
   // Setting the url is mandatory
   params[PiwikParameterURL] = [self generatPageURL:components];
-  
-  //NSLog(@"Send page view %@", actionName);
   
   return [self queueEvent:params];
 }
@@ -706,10 +718,10 @@ static PiwikTracker *_sharedInstance;
   NSParameterAssert(value);
   
   if (index < 1) {
-    NSLog(@"Custom variable index must be > 0");
+    PiwikLog(@"Custom variable index must be > 0");
     return NO;
   } else if (scope == VisitCustomVariableScope && self.includeDefaultCustomVariable && index <= 3) {
-    NSLog(@"Custom variable index conflicting with default indexes used by the SDK. Change index or turn off default default variables");
+    PiwikLog(@"Custom variable index conflicting with default indexes used by the SDK. Change index or turn off default default variables");
     return NO;
   }
   
@@ -757,7 +769,7 @@ static PiwikTracker *_sharedInstance;
   parameters = [self addSessionParameters:parameters];
   parameters = [self addStaticParameters:parameters];
   
-  NSLog(@"Store event with parameters %@", parameters);
+  PiwikDebugLog(@"Store event with parameters %@", parameters);
   
   [self.eventStore saveEventWithParameters:parameters completionBlock:^{
     
@@ -811,12 +823,22 @@ static PiwikTracker *_sharedInstance;
   }
   
   // Add local time
+  NSDate *now = [NSDate date];
   NSCalendar *calendar = [NSCalendar currentCalendar];
   unsigned unitFlags = NSHourCalendarUnit | NSMinuteCalendarUnit |  NSSecondCalendarUnit;
-  NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:[NSDate date]];
+  NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:now];
   joinedParameters[PiwikParameterHours] = [NSString stringWithFormat:@"%ld", (long)[dateComponents hour]];
   joinedParameters[PiwikParameterMinutes] = [NSString stringWithFormat:@"%ld", (long)[dateComponents minute]];
   joinedParameters[PiwikParameterSeconds] = [NSString stringWithFormat:@"%ld", (long)[dateComponents second]];
+  
+  // Add UTC time
+  static NSDateFormatter *UTCDateFormatter = nil;
+  if (!UTCDateFormatter) {
+    UTCDateFormatter = [[NSDateFormatter alloc] init];
+    UTCDateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    UTCDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+  }
+  joinedParameters[PiwikParameterDateAndTime] = [UTCDateFormatter stringFromDate:now];
   
   return joinedParameters;
 }
@@ -983,7 +1005,7 @@ static PiwikTracker *_sharedInstance;
       };
       
       void (^failureBlock)(BOOL shouldContinue) = ^ (BOOL shouldContinue) {
-        NSLog(@"Failed to send stats to Piwik server");
+        PiwikDebugLog(@"Failed to send stats to Piwik server");
         
         if (shouldContinue) {
           [weakSelf sendEventDidFinishHasMorePending:hasMore];
