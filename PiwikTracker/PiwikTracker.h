@@ -10,6 +10,7 @@
 #import "PiwikDebugDispatcher.h"
 
 @class PiwikTransaction;
+@protocol PiwikEventStore;
 
 
 /**
@@ -387,13 +388,6 @@ typedef NS_ENUM(NSUInteger, CustomVariableScope) {
 @property(nonatomic) NSTimeInterval dispatchInterval;
 
 /**
- Specifies the maximum number of events queued in core date. Default 500.
- 
- If the number of queued events exceed this value events will no longer be queued.
- */
-@property (nonatomic) NSUInteger maxNumberOfQueuedEvents;
-
-/**
  Specifies how many events should be sent to the Piwik server in each request. Default 20 events per request.
  
  The Piwik server support sending one event at the time or in bulk mode.  
@@ -407,10 +401,28 @@ typedef NS_ENUM(NSUInteger, CustomVariableScope) {
  */
 - (BOOL)dispatch;
 
+
+/**
+ @name Event store
+ */
+
+/**
+ */
+@property (nonatomic, strong) id<PiwikEventStore> eventStore;
+
 /**
  Delete all pending events.
  */
 - (void)deleteQueuedEvents;
+
+/**
+ Specifies the maximum number of events queued in core date. Default 500.
+ 
+ If the number of queued events exceed this value events will no longer be queued.
+ 
+ @deprecated No longer supported since vesion 3.2. Developers can set their own EventStore implementations and control the number of events stored.
+ */
+@property (nonatomic) NSUInteger maxNumberOfQueuedEvents DEPRECATED_ATTRIBUTE;
 
 
 /**

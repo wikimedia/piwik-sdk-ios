@@ -17,7 +17,7 @@
 @protocol PiwikEventStore <NSObject>
 
 
-- (void)start;
+- (void)setup;
 
 
 - (void)saveEventWithParameters:(NSDictionary*)parameters completionBlock:(void (^)(void))completionBlock;

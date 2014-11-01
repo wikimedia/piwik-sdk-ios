@@ -12,4 +12,7 @@
 
 @interface InMemoryEventStore : NSObject <PiwikEventStore>
 
+// TODO Property unused
+@property (nonatomic) NSUInteger maxNumberOfQueuedEvents;
+
 @end

@@ -11,4 +11,6 @@
 
 @interface CoreDataEventStore : NSObject <PiwikEventStore>
 
+@property (nonatomic) NSUInteger maxNumberOfQueuedEvents;
+
 @end
