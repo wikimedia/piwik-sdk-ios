@@ -23,11 +23,11 @@
 - (void)saveEventWithParameters:(NSDictionary*)parameters completionBlock:(void (^)(void))completionBlock;
 
 
-// TODO Change to NSSet?
-- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *eventIDs, NSArray *events, BOOL hasMore))completionBlock;
 
-// TODO Change to NSSet?
-- (void)deleteEventsWithIDs:(NSArray*)eventIDs completionBlock:(void (^)(void))completionBlock;
+- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSSet *eventIDs, NSArray *events, BOOL hasMore))completionBlock;
+
+
+- (void)deleteEventsWithIDs:(NSSet*)eventIDs completionBlock:(void (^)(void))completionBlock;
 
 // TODO completionblock?
 - (void)deleteAllEvents;

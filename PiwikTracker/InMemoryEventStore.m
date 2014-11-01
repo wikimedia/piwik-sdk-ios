@@ -60,13 +60,13 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 }
 
 
-- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSArray *eventIDs, NSArray *events, BOOL hasMore))completionBlock {
+- (void)readEvents:(NSUInteger)numberOfEvents completionBlock:(void (^)(NSSet *eventIDs, NSArray *events, BOOL hasMore))completionBlock {
   
   __weak typeof(self)weakSelf = self;
   dispatch_async(self.queue, ^{
     
     __block BOOL moreEventsPending = NO;
-    NSMutableArray *eventIdentities = [NSMutableArray array];
+    NSMutableSet *eventIdentities = [NSMutableSet set];
     NSMutableArray *eventParameters = [NSMutableArray array];
     [weakSelf.eventStore enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       
@@ -89,7 +89,7 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 }
 
 
-- (void)deleteEventsWithIDs:(NSArray*)eventIDs completionBlock:(void (^)(void))completionBlock {
+- (void)deleteEventsWithIDs:(NSSet*)eventIDs completionBlock:(void (^)(void))completionBlock {
   
   __weak typeof(self)weakSelf = self;
   dispatch_async(self.queue, ^{
