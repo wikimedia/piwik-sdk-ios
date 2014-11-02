@@ -280,7 +280,6 @@ static PiwikTracker *_sharedInstance;
     _dispatcher = dispatcher;
     
     _eventStore = [[CoreDataEventStore alloc] init];
-    [_eventStore setup];
     
     _isPrefixingEnabled = YES;
     

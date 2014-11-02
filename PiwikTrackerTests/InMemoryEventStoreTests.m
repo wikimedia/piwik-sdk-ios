@@ -26,7 +26,6 @@
   [super setUp];
   
   self.eventStore = [[InMemoryEventStore alloc] init];
-  [self.eventStore setup];
   
   self.parameters = @{@"key" : @"value"};
   

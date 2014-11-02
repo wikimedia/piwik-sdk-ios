@@ -17,9 +17,6 @@
 @protocol PiwikEventStore <NSObject>
 
 
-- (void)setup;
-
-
 - (void)saveEventWithParameters:(NSDictionary*)parameters completionBlock:(void (^)(void))completionBlock;
 
 
@@ -29,7 +26,7 @@
 
 - (void)deleteEventsWithIDs:(NSSet*)eventIDs completionBlock:(void (^)(void))completionBlock;
 
-// TODO completionblock?
+
 - (void)deleteAllEvents;
 
 

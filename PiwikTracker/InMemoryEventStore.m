@@ -38,14 +38,13 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 @implementation InMemoryEventStore
 
 
-- (void)setup {
-  
-  if (!self.eventStore) {
-    self.eventStore = [NSMutableArray array];
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _eventStore = [NSMutableArray array];
+    _queue = dispatch_queue_create([PiwikStorageQueue UTF8String], NULL);
   }
-  
-  self.queue = dispatch_queue_create([PiwikStorageQueue UTF8String], NULL);
-  
+  return self;
 }
 
 

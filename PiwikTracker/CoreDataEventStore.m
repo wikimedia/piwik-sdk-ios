@@ -31,10 +31,13 @@ static NSUInteger const DefaultMaxNumberOfStoredEvents = 500;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 
-- (void)setup {
-  
-  self.maxNumberOfQueuedEvents = DefaultMaxNumberOfStoredEvents;
-  
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _maxNumberOfQueuedEvents = DefaultMaxNumberOfStoredEvents;
+  }
+  return self;
 }
 
 
