@@ -71,6 +71,12 @@ typedef NS_ENUM(NSUInteger, CustomVariableScope) {
  */
 + (instancetype)sharedInstanceWithSiteID:(NSString*)siteID dispatcher:(id<PiwikDispatcher>)dispatcher;
 
+
++ (instancetype)sharedInstanceWithSiteID:(NSString*)siteID
+                              dispatcher:(id<PiwikDispatcher>)dispatcher
+                              eventStore:(id<PiwikEventStore>)eventStore;
+
+
 /**
  Return the shared Piwik tracker.
  

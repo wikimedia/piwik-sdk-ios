@@ -251,13 +251,21 @@ static PiwikTracker *_sharedInstance;
 
 
 + (instancetype)sharedInstanceWithSiteID:(NSString*)siteID dispatcher:(id<PiwikDispatcher>)dispatcher {
+  return [self sharedInstanceWithSiteID:siteID dispatcher:dispatcher eventStore:[[PiwikCoreDataEventStore alloc] init]];
+}
+
+
++ (instancetype)sharedInstanceWithSiteID:(NSString*)siteID
+                              dispatcher:(id<PiwikDispatcher>)dispatcher
+                              eventStore:(id<PiwikEventStore>)eventStore {
   
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    _sharedInstance = [[PiwikTracker alloc] initWithSiteID:siteID dispatcher:dispatcher];
+    _sharedInstance = [[PiwikTracker alloc] initWithSiteID:siteID dispatcher:dispatcher eventStore:(id<PiwikEventStore>)eventStore];
   });
   
   return _sharedInstance;
+  
 }
 
 
@@ -271,15 +279,14 @@ static PiwikTracker *_sharedInstance;
 }
 
 
-- (id)initWithSiteID:(NSString*)siteID dispatcher:(id<PiwikDispatcher>)dispatcher {
+- (id)initWithSiteID:(NSString*)siteID dispatcher:(id<PiwikDispatcher>)dispatcher eventStore:(id<PiwikEventStore>)eventStore {
   
   if (self = [super init]) {
     
     // Initialize instance variables
     _siteID = siteID;
-    _dispatcher = dispatcher;
-    
-    _eventStore = [[PiwikCoreDataEventStore alloc] init];
+    _dispatcher = dispatcher;    
+    _eventStore = eventStore;
     
     _isPrefixingEnabled = YES;
     
