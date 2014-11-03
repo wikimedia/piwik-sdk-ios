@@ -37,7 +37,7 @@
 		C027567BEC62566E6F824230 /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BB58213275F072D13140292 /* libPods-ios.a */; };
 		CD03D99417E8F8CB00D7723F /* Screen2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD03D99317E8F8CB00D7723F /* Screen2ViewController.m */; };
 		CD03D99717E8FDFD00D7723F /* OptOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD03D99617E8FDFC00D7723F /* OptOutViewController.m */; };
-		CD04A0481A00D33D00C988F1 /* InMemoryEventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CD04A0471A00D33D00C988F1 /* InMemoryEventStore.m */; };
+		CD04A0481A00D33D00C988F1 /* PiwikInMemoryEventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CD04A0471A00D33D00C988F1 /* PiwikInMemoryEventStore.m */; };
 		CD04A04A1A01710700C988F1 /* InMemoryEventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD04A0491A01710700C988F1 /* InMemoryEventStoreTests.m */; };
 		CD10FAC017B0378D0012BE50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD10FABF17B0378D0012BE50 /* Foundation.framework */; };
 		CD10FAF017B037B50012BE50 /* PiwikTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = CD10FAEB17B037B50012BE50 /* PiwikTracker.m */; };
@@ -55,7 +55,7 @@
 		CD1EEBD219B5E94B009BAA7A /* PiwikAFNetworking2Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1EEBD119B5E94B009BAA7A /* PiwikAFNetworking2Dispatcher.m */; };
 		CD1EEBE319B713F4009BAA7A /* libPiwikTracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD10FABC17B0378D0012BE50 /* libPiwikTracker.a */; };
 		CD2F7DB317B96D0000E240FC /* PiwikTrackedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2F7DB217B96D0000E240FC /* PiwikTrackedViewController.m */; };
-		CD548F7C1A04D03700445ECD /* CoreDataEventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CD548F7B1A04D03700445ECD /* CoreDataEventStore.m */; };
+		CD548F7C1A04D03700445ECD /* PiwikCoreDataEventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CD548F7B1A04D03700445ECD /* PiwikCoreDataEventStore.m */; };
 		CD5C9815193E65CF00A8A801 /* CampaignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5C9814193E65CF00A8A801 /* CampaignViewController.m */; };
 		CD5F3BEE18678C9000D04E03 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5F3BED18678C9000D04E03 /* CoreLocation.framework */; };
 		CD8EB28A193B914E000E3F1F /* ConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8EB289193B914E000E3F1F /* ConfigurationViewController.m */; };
@@ -173,8 +173,8 @@
 		CD03D99317E8F8CB00D7723F /* Screen2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Screen2ViewController.m; sourceTree = "<group>"; };
 		CD03D99517E8FDFC00D7723F /* OptOutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptOutViewController.h; sourceTree = "<group>"; };
 		CD03D99617E8FDFC00D7723F /* OptOutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptOutViewController.m; sourceTree = "<group>"; };
-		CD04A0461A00D33D00C988F1 /* InMemoryEventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InMemoryEventStore.h; sourceTree = "<group>"; };
-		CD04A0471A00D33D00C988F1 /* InMemoryEventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InMemoryEventStore.m; sourceTree = "<group>"; };
+		CD04A0461A00D33D00C988F1 /* PiwikInMemoryEventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiwikInMemoryEventStore.h; sourceTree = "<group>"; };
+		CD04A0471A00D33D00C988F1 /* PiwikInMemoryEventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiwikInMemoryEventStore.m; sourceTree = "<group>"; };
 		CD04A0491A01710700C988F1 /* InMemoryEventStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InMemoryEventStoreTests.m; sourceTree = "<group>"; };
 		CD04A04C1A017A1E00C988F1 /* PiwikEventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiwikEventStore.h; sourceTree = "<group>"; };
 		CD10FABC17B0378D0012BE50 /* libPiwikTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPiwikTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -211,8 +211,8 @@
 		CD2F7DAF17B9561C00E240FC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		CD2F7DB117B96D0000E240FC /* PiwikTrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiwikTrackedViewController.h; sourceTree = "<group>"; };
 		CD2F7DB217B96D0000E240FC /* PiwikTrackedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiwikTrackedViewController.m; sourceTree = "<group>"; };
-		CD548F7A1A04D03700445ECD /* CoreDataEventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataEventStore.h; sourceTree = "<group>"; };
-		CD548F7B1A04D03700445ECD /* CoreDataEventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataEventStore.m; sourceTree = "<group>"; };
+		CD548F7A1A04D03700445ECD /* PiwikCoreDataEventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiwikCoreDataEventStore.h; sourceTree = "<group>"; };
+		CD548F7B1A04D03700445ECD /* PiwikCoreDataEventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiwikCoreDataEventStore.m; sourceTree = "<group>"; };
 		CD5C9813193E65CF00A8A801 /* CampaignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignViewController.h; sourceTree = "<group>"; };
 		CD5C9814193E65CF00A8A801 /* CampaignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignViewController.m; sourceTree = "<group>"; };
 		CD5F3BED18678C9000D04E03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -348,10 +348,10 @@
 			isa = PBXGroup;
 			children = (
 				CD04A04C1A017A1E00C988F1 /* PiwikEventStore.h */,
-				CD04A0461A00D33D00C988F1 /* InMemoryEventStore.h */,
-				CD04A0471A00D33D00C988F1 /* InMemoryEventStore.m */,
-				CD548F7A1A04D03700445ECD /* CoreDataEventStore.h */,
-				CD548F7B1A04D03700445ECD /* CoreDataEventStore.m */,
+				CD04A0461A00D33D00C988F1 /* PiwikInMemoryEventStore.h */,
+				CD04A0471A00D33D00C988F1 /* PiwikInMemoryEventStore.m */,
+				CD548F7A1A04D03700445ECD /* PiwikCoreDataEventStore.h */,
+				CD548F7B1A04D03700445ECD /* PiwikCoreDataEventStore.m */,
 			);
 			name = EventStore;
 			sourceTree = "<group>";
@@ -897,13 +897,13 @@
 				CD10FAF017B037B50012BE50 /* PiwikTracker.m in Sources */,
 				CD152F5D188C7CCA0090BFD3 /* PiwikLocationManager.m in Sources */,
 				CD10FAF217B037B50012BE50 /* piwiktracker.xcdatamodeld in Sources */,
-				CD04A0481A00D33D00C988F1 /* InMemoryEventStore.m in Sources */,
+				CD04A0481A00D33D00C988F1 /* PiwikInMemoryEventStore.m in Sources */,
 				CD152F58188C549F0090BFD3 /* PiwikTransactionItem.m in Sources */,
 				CD1EA96917B0E5B400F63E14 /* PTEventEntity.m in Sources */,
 				CD152F4E188C52BA0090BFD3 /* PiwikTransactionBuilder.m in Sources */,
 				CD1EEB2219B4A208009BAA7A /* PiwikDebugDispatcher.m in Sources */,
 				CD2F7DB317B96D0000E240FC /* PiwikTrackedViewController.m in Sources */,
-				CD548F7C1A04D03700445ECD /* CoreDataEventStore.m in Sources */,
+				CD548F7C1A04D03700445ECD /* PiwikCoreDataEventStore.m in Sources */,
 				CD152F53188C54720090BFD3 /* PiwikTransaction.m in Sources */,
 				CD1EEB2319B4A208009BAA7A /* PiwikNSURLSessionDispatcher.m in Sources */,
 			);

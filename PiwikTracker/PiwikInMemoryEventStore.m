@@ -1,12 +1,12 @@
 //
-//  InMemoryEventStore.m
+//  PiwikInMemoryEventStore.m
 //  PiwikTracker
 //
 //  Created by Mattias Levin on 29/10/14.
 //  Copyright (c) 2014 Mattias Levin. All rights reserved.
 //
 
-#import "InMemoryEventStore.h"
+#import "PiwikInMemoryEventStore.h"
 
 
 static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
@@ -24,7 +24,7 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 
 
 
-@interface InMemoryEventStore ()
+@interface PiwikInMemoryEventStore ()
 
 @property (nonatomic, strong) NSMutableArray *eventStore;
 
@@ -35,7 +35,7 @@ static NSString * const PiwikStorageQueue = @"com.piwik.storageQueu";
 @end
 
 
-@implementation InMemoryEventStore
+@implementation PiwikInMemoryEventStore
 
 
 - (instancetype)init {

@@ -1,17 +1,17 @@
 //
-//  CoreDataEventStore.m
+//  PiwikCoreDataEventStore.m
 //  PiwikTracker
 //
 //  Created by Mattias Levin on 01/11/14.
 //  Copyright (c) 2014 Mattias Levin. All rights reserved.
 //
 
-#import "CoreDataEventStore.h"
+#import "PiwikCoreDataEventStore.h"
 #import <CoreData/CoreData.h>
 #import "PTEventEntity.h"
 
 
-@interface CoreDataEventStore ()
+@interface PiwikCoreDataEventStore ()
 
 @property (nonatomic, readonly, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly, strong) NSManagedObjectModel *managedObjectModel;
@@ -23,7 +23,7 @@
 static NSUInteger const DefaultMaxNumberOfStoredEvents = 500;
 
 
-@implementation CoreDataEventStore
+@implementation PiwikCoreDataEventStore
 
 
 @synthesize managedObjectContext = _managedObjectContext;

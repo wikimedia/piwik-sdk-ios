@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "InMemoryEventStore.h"
+#import "PiwikInMemoryEventStore.h"
 
 
 @interface InMemoryEventStoreTests : XCTestCase
 
-@property (nonatomic, strong) InMemoryEventStore *eventStore;
+@property (nonatomic, strong) PiwikInMemoryEventStore *eventStore;
 @property (nonatomic, strong) NSDictionary *parameters;
 
 @end
@@ -25,7 +25,7 @@
 - (void)setUp {
   [super setUp];
   
-  self.eventStore = [[InMemoryEventStore alloc] init];
+  self.eventStore = [[PiwikInMemoryEventStore alloc] init];
   
   self.parameters = @{@"key" : @"value"};
   

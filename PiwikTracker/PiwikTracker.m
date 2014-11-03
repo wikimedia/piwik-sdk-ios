@@ -17,7 +17,7 @@
 #import "PiwikLocationManager.h"
 
 #import "PiwikEventStore.h"
-#import "CoreDataEventStore.h"
+#import "PiwikCoreDataEventStore.h"
 
 #import "PiwikDispatcher.h"
 #import "PiwikNSURLSessionDispatcher.h"
@@ -279,7 +279,7 @@ static PiwikTracker *_sharedInstance;
     _siteID = siteID;
     _dispatcher = dispatcher;
     
-    _eventStore = [[CoreDataEventStore alloc] init];
+    _eventStore = [[PiwikCoreDataEventStore alloc] init];
     
     _isPrefixingEnabled = YES;
     
