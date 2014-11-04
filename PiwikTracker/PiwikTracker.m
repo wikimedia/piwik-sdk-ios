@@ -8,12 +8,10 @@
 
 #import "PiwikTracker.h"
 #import <CommonCrypto/CommonDigest.h>
-//#import <CoreData/CoreData.h>
 #import <CoreLocation/CoreLocation.h>
 
 #import "PiwikTransaction.h"
 #import "PiwikTransactionItem.h"
-//#import "PTEventEntity.h"
 #import "PiwikLocationManager.h"
 
 #import "PiwikEventStore.h"
@@ -191,10 +189,6 @@ static NSString * const PiwikURLCampaignKeyword = @"pk_kwd";
 @property (nonatomic) BOOL includeLocationInformation; // Disabled, see comments in .h file
 @property (nonatomic, strong) PiwikLocationManager *locationManager;
 
-//@property (nonatomic, readonly, strong) NSManagedObjectContext *managedObjectContext;
-//@property (nonatomic, readonly, strong) NSManagedObjectModel *managedObjectModel;
-//@property (nonatomic, readonly, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
 @end
 
 
@@ -208,10 +202,6 @@ NSString* UserDefaultKeyWithSiteID(NSString* siteID, NSString *key);
 @synthesize previousVisitTimestamp = _previousVisitTimestamp;
 @synthesize currentVisitTimestamp = _currentVisitTimestamp;
 @synthesize clientID = _clientID;
-
-//@synthesize managedObjectContext = _managedObjectContext;
-//@synthesize managedObjectModel = _managedObjectModel;
-//@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 
 static PiwikTracker *_sharedInstance;
@@ -300,7 +290,6 @@ static PiwikTracker *_sharedInstance;
     _includeDefaultCustomVariable = YES;
     
     _dispatchInterval = PiwikDefaultDispatchTimer;
-//    _maxNumberOfQueuedEvents = PiwikDefaultMaxNumberOfStoredEvents;
     _isDispatchRunning = NO;
     
     _eventsPerRequest = PiwikDefaultNumberOfEventsPerRequest;
