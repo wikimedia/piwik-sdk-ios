@@ -31,7 +31,7 @@ static NSUInteger const PiwikHTTPRequestTimeout = 5;
 }
 
 - (void)sendSingleEventWithParameters:(NSDictionary*)parameters
-                              success:(void (^)())successBlock
+                              success:(void (^)(void))successBlock
                               failure:(void (^)(BOOL shouldContinue))failureBlock {
   
   //NSLog(@"Dispatch single event with NSURLSession dispatcher");
@@ -61,7 +61,7 @@ static NSUInteger const PiwikHTTPRequestTimeout = 5;
 
 
 - (void)sendBulkEventWithParameters:(NSDictionary*)parameters
-                            success:(void (^)())successBlock
+                            success:(void (^)(void))successBlock
                             failure:(void (^)(BOOL shouldContinue))failureBlock {
   
   //NSLog(@"Dispatch batch events with NSURLSession dispatcher");

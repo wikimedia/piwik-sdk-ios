@@ -30,7 +30,7 @@
  @param failure Run this block if the dispatch to the Piwik server fails. Provide a YES to indicate if the SDK should attempt to send any pending event or NO if pending events should be saved until next dispatch. E.g. there is no use trying to send pending events if there is no network connection. 
  */
 - (void)sendSingleEventWithParameters:(NSDictionary*)parameters
-                              success:(void (^)())successBlock
+                              success:(void (^)(void))successBlock
                               failure:(void (^)(BOOL shouldContinue))failureBlock;
 
 /**
@@ -43,7 +43,7 @@
  @param failure Run this block if the dispatch to the Piwik server fails. Provide a YES to indicate if the SDK should attempt to send any pending event or NO if pending events should be saved until next dispatch. E.g. there is no use trying to send pending events if there is no network connection.
  */
 - (void)sendBulkEventWithParameters:(NSDictionary*)parameters
-                            success:(void (^)())successBlock
+                            success:(void (^)(void))successBlock
                             failure:(void (^)(BOOL shouldContinue))failureBlock;
 
 

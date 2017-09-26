@@ -16,7 +16,7 @@
 }
 
 - (void)sendSingleEventWithParameters:(NSDictionary*)parameters
-                              success:(void (^)())successBlock
+                              success:(void (^)(void))successBlock
                               failure:(void (^)(BOOL shouldContinue))failureBlock {
   
   //NSLog(@"Dispatch single event with debug dispatcher");
@@ -29,7 +29,7 @@
 
 
 - (void)sendBulkEventWithParameters:(NSDictionary*)parameters
-                            success:(void (^)())successBlock
+                            success:(void (^)(void))successBlock
                             failure:(void (^)(BOOL shouldContinue))failureBlock {
   
   //NSLog(@"Dispatch batch events with debug dispatcher");
