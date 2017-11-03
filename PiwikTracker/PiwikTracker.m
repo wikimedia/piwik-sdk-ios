@@ -1439,9 +1439,12 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
       // Create new event entity
       PTEventEntity *eventEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PTEventEntity" inManagedObjectContext:self.managedObjectContext];
       eventEntity.piwikRequestParameters = [NSKeyedArchiver archivedDataWithRootObject:parameters];
-      
-      [self.managedObjectContext save:&error];
-      
+
+        @try {
+            [self.managedObjectContext save:&error];
+        } @catch(NSException *e) {
+            PiwikLog(@"Tracker caught exception: %@", e);
+        }
     } else {
       PiwikLog(@"Tracker reach maximum number of queued events");
     }
