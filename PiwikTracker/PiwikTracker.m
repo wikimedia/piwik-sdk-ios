@@ -1429,7 +1429,7 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
   [self.managedObjectContext performBlock:^{
     
     NSError *error;
-    
+
     // Check if we reached the limit of the number of queued events
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"PTEventEntity"];
     NSUInteger count = [self.managedObjectContext countForFetchRequest:fetchRequest error:&error];
@@ -1440,11 +1440,7 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
       PTEventEntity *eventEntity = [NSEntityDescription insertNewObjectForEntityForName:@"PTEventEntity" inManagedObjectContext:self.managedObjectContext];
       eventEntity.piwikRequestParameters = [NSKeyedArchiver archivedDataWithRootObject:parameters];
 
-        @try {
-            [self.managedObjectContext save:&error];
-        } @catch(NSException *e) {
-            PiwikLog(@"Tracker caught exception: %@", e);
-        }
+      [self save];
     } else {
       PiwikLog(@"Tracker reach maximum number of queued events");
     }
@@ -1454,6 +1450,15 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
   }];
   
   return YES;
+}
+
+- (void)save {
+    @try {
+        NSError *error = nil;
+        [self.managedObjectContext save:&error];
+    } @catch(NSException *e) {
+        PiwikLog(@"Tracker caught exception: %@", e);
+    }
 }
 
 
@@ -1517,7 +1522,7 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
 
     }
     
-    [self.managedObjectContext save:&error];
+    [self save];
     
   }];
   
@@ -1527,9 +1532,9 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
 - (void)deleteAllStoredEvents {
   
   [self.managedObjectContext performBlock:^{
-    
+
     NSError *error;
-    
+
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"PTEventEntity"];
 
     NSArray *events = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];    
@@ -1537,7 +1542,7 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
       [self.managedObjectContext deleteObject:event];
     }
     
-    [self.managedObjectContext save:&error];
+    [self save];
     
   }];
   
@@ -1597,36 +1602,29 @@ inline NSString* UserDefaultKeyWithSiteID(NSString *siteID, NSString *key) {
                                                            URL:storeURL
                                                        options:options
                                                          error:&error]) {
-    
-    BOOL isMigrationError = [error code] == NSPersistentStoreIncompatibleVersionHashError || [error code] == NSMigrationMissingSourceModelError;
-    
-    if ([[error domain] isEqualToString:NSCocoaErrorDomain] && isMigrationError) {
-      
-      PiwikLog(@"Remove incompatible model version: %@", [storeURL lastPathComponent]);
-      
+      PiwikLog(@"Error adding persistent store: %@", error);
+      PiwikLog(@"Remove broken store: %@", [storeURL lastPathComponent]);
+
       // Could not open the database, remove it and try again
       [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-      
-      
+
+
       // Try one more time to create the store
       [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                                 configuration:nil
                                                           URL:storeURL
                                                       options:nil
                                                         error:&error];
-      
+
       if (_persistentStoreCoordinator) {
-        // If we successfully added a store, remove the error that was initially created
-        PiwikLog(@"Recovered from migration error");
-        error = nil;
+          // If we successfully added a store, remove the error that was initially created
+          PiwikLog(@"Recovered from migration error");
+          error = nil;
       } else {
-        // Not possible to recover of workaround
-        PiwikLog(@"Unresolved error when setting up code data stack %@, %@", error, [error userInfo]);
-        abort();
+          // Not possible to recover of workaround
+          PiwikLog(@"Unresolved error when setting up code data stack %@, %@", error, [error userInfo]);
+          abort();
       }
-      
-    }
-    
   }
   
   return _persistentStoreCoordinator;
